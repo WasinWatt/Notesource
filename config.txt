@@ -1,0 +1,7 @@
+Deployment
+- AWS => EC2,S3
+- ipv4 => 52.24.67.106:3000
+
+Monolab Console
+- mongo ds023452.mlab.com:23452/notesource -u notesource -p notesource
+

@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>User's Home</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="stylesheets/Usercss.css">
+  <link rel="stylesheet" href="node_modules/basicmodal/dist/basicModal.min.css">
+  <script src="bower_components/jquery/dist/jquery.min.js"></script>
+  <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+  <script src="javascripts/utils.js"></script>
+  <!-- Upload file-->
+  <script>
+  $(function(){
+    var host = '<%=host%>';//app.get('host');{{host}}
+    console.log(host);
+    $(document).on('click','#doUpload',function(){
+      uploadNow();
+    });
+
+    function uploadNow(){
+      $('.progress').fadeIn(100);
+
+      var uploadURL = host+'/users/upload';
+      var uploadFile = $('.uploadPic');
+      if(uploadFile.val()!=''){//file exist
+        var form = new FormData();
+        //allow upload only one file(first file) at the time
+        form.append("upload",uploadFile[0].files[0]);
+        //AJAX POST request and send the file
+        ajax({
+          method:'post',
+          url:uploadURL,
+          success:function(){//call back when downloaded success
+            $('.progress').fadeOut(200);
+            uploadFile.val('');
+          },
+          progress:function(e){//UI to show downlad progress
+            if(e.lengthComputable){
+              var perc = Math.round((e.loaded*100)/e.total);
+              $('.progress').css('width',(perc+'%'));
+            }
+          },
+          payload:form
+        });
+      }
+    }
+
+  });
+  </script>
+</head>
+<body>
+
+  <div class="container-fluid">
+    <!--NAVBAR-->
+    <nav class="navbar navbar-default navbar-fixed-top">
+
+      <div class="navbar-header">
+        <a class="navbar-brand" href="#">NoteSource</a>
+      </div>
+
+      <div class="collapse navbar-collapse" id="myNavbar">
+        <form class="navbar-form navbar-left" role="search">
+          <div class="form-group">
+            <input type="text" id="navsearch" class="form-control searchnav" size="60px" placeholder="Search">
+          </div>
+          <button type="submit" class="btn btn-default searchbtn"><span class="glyphicon glyphicon-search"></span></button>
+        </form>
+
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="#"><%=name%></a></li>
+          <!--dropdown logout-->
+          <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><img src="images/no-user.jpg" class="img-circle" height="25" width="25" alt="Avatar"> <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a href="#">Page 1-1</a></li>
+              <li><a href="#">Page 1-2</a></li>
+
+              <li><a href="/users/logout">Sign Out</a></li>
+            </ul>
+          </li>
+        </ul>
+
+      </div>
+
+    </nav>
+    <div class="row content">
+      <!--SIDENAVBAR-->
+      <div class="sidenav">
+        <ul class="nav nav-pills nav-stacked red">
+          <!--USER's NAME-->
+          <h2><%=name%></h2>
+          <li id="1" class="active"><a href="#section1">หน้าแรก</a></li>
+          <li id="2"><a href="#section2">คอร์สของฉัน</a></li>
+          <li id="3"><a href="#section3">My Favorite files</a></li>
+          <li id="4"><a href="#section3">ข้อมูลส่วนตัว</a></li>
+          <br>
+        </ul>
+
+      </div>
+      <!--USER'S CONTENT-->
+      <!--PAGE HOME-->
+      <div id="page1" class="page active-page">
+        <h4><small>RECENT POSTS</small></h4>
+        <hr>
+        <h2>2207103 PHILOSOPHY AND LOGIC</h2>
+        <h5><span class="glyphicon glyphicon-time"></span> Post by Jane Dane, Sep 27, 2015.</h5>
+        <h5><span class="label label-danger">Food</span> <span class="label label-primary">Ipsum</span></h5><br>
+        <p>เนื้อหาวิชา ความหมายและขอบข่ายของปรัชญา ปัญหาหลักในปรัชญา ได้แก่ปัญหาเกี่ยวกับสิ่งแท้จริงสูงสุด ความรู้และที่มาของความรู้ ปัญหาด้านจริยศาสตร์ สุนทรียศาสตร์ และปรัชญาประยุกต์ ตรรกวิทยา ในฐานะเป็นเครื่องมือของปรัชญา ลักษณะการอ้างเหตุผลแบบอุปนัยและนิรนัย หลักเกณฑ์และความสมเหตุสมผลในการอ้างเหตุผล วิเคราะห์การอ้างเหตุผลในภาษาที่ใช้ประจำวัน</p>
+        <br><br>
+
+        <h4><small>HOME</small></h4>
+        <hr>
+        <h2>2110211 Data Structures</h2>
+        <h5><span class="glyphicon glyphicon-time"></span> Post by John Doe, Sep 24, 2015.</h5>
+        <h5><span class="label label-success">Lorem</span></h5><br>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+        <hr>
+
+        <h4>Leave a Comment:</h4>
+        <form role="form">
+          <div class="form-group">
+            <textarea id="text" class="form-control" rows="3" required></textarea>
+          </div>
+          <button type="button" class="btn btn-success" id="submit">Submit</button>
+
+        </form>
+        <br><br>
+
+        <p><span class="badge">2</span> Comments:</p><br>
+
+        <div class="row" id="comment">
+          <div>
+            <div class="col-sm-2 text-center">
+              <img src="images/liang.jpg" class="img-circle" height="65" width="65" alt="Avatar">
+            </div>
+            <div class="col-sm-10">
+              <h4>S.Wasin <small>Sep 29, 2015, 9:12 PM</small></h4>
+              <p>วิชานี้ดีสุดแล้วว ฟังๆเค้าพูด หลับบ้างจดบ้างนิดหน่อย จะบอกว่า part philos สนุกมาก ได้อะไรที่แปลกแตกต่างจากพวกวิชาสายวิทย์ แต่บางทีก็ปวดหัวเหมือนกัน แต่ก็ทำให้ได้คิดอะไรที่มันแปลกๆ นามธรรมบ้าง 555 โดยเฉพาะตอน discuss กันนี่ เถียงกันตลอด บางครั้งนอกจากเล้กเช่อก้มีดูหนังด้วยนะ แล้วก้ตอบคำถามไรนิดหน่อย สรุปข้อดี ถ้าคนชอบแนวนี้ ได้คิดอะไรใหม่ๆ + เบื่อกะอะไรจำเจ + ไม่มีการบ้าน มีแค่อ่านตอนสอบนิดหน่อย + โดดได้บ้าง ชิวซะส่วนใหญ่ สรุปข้อเสีย บางครั้งก็ปวดหัว บางอย่างซับซ้อนเกิน + ถ้าคนไม่ชอบแนวนี้จะเบื่อไปเ้ลย + เกรดก็ยากนิดนึง(แต่ไม่มากเท่าไร Shocked)</p>
+              <br>
+            </div>
+          </div>
+          <div>
+            <div class="col-sm-2 text-center">
+              <img src="images/deadpool.jpg" class="img-circle" height="65" width="65" alt="Avatar">
+            </div>
+            <div class="col-sm-10">
+              <h4>S.Anan <small>Sep 25, 2015, 8:25 PM</small></h4>
+              <p>คิดว่าวิชานี้ก็เป็นวิชาที่ดีๆๆๆ ประทับใจสุดในตัวที่ลงไปแล้ว,, เพราะเหมือนมันได้เรียนจิงๆ ได้คิด ได้มุมมองอะไรเยอะดี เปิดโลกกว้างมากๆ แล้วก็ได้มุมมองหลายอย่างจากเพื่อนที่เรียนด้วยแหละ (สน พี่เก้ง เอ ลิลลี่ ปลาย เบลล์ เอช น้ำมนต์ หนอน ตี้ ไก่) เลยทำให้รู้สึกดีกะวิชานี้,, ข้อดีอีกอย่างคือ~~ ไม่ต้องท่องเลยจริงๆๆๆ แค่ตั้งใจฟังตอนอาจารย์ตีความดีๆ คิดตามไปด้วยเยอะๆ ตอนสอบก็open bookอ่ะ ต้องเขียนดีๆ จับประเด็นให้ได้+ใช้ภาษาโน้มน้าวนิดหน่อย ก็น่าจะAได้ไม่ยากๆๆ (ตัดอิงเกณฑ์80น้ะ) </p>
+              <br>
+              <p><span class="badge">1</span> Comment:</p><br>
+              <div class="row">
+                <div class="col-sm-2 text-center">
+                  <img src="images/sven.jpg" class="img-circle" height="65" width="65" alt="Avatar">
+                </div>
+                <div class="col-xs-10">
+                  <h4>Nested Bro <small>Sep 25, 2015, 8:28 PM</small></h4>
+                  <p>น่าสนใจคร้าบ</p>
+                  <br>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--PAGE COURSES-->
+      <div id="page2" class="page">
+        <h3>My Courses</h3>
+      </div>
+      <!--PAGE FAV FILES-->
+      <div id="page3" class="page">
+        <div id="addfile">
+          <h4 id="addh"><small>Add your new file here! : </small></h4>
+          <button class="button-add" data-toggle="modal" data-target="#Addmodal">Add file</button>
+          <div class="progressBar">
+          </div>
+          <hr>
+          <div class="filelist">
+            <div class = "file">
+              <a class="fileid" tabindex="0" role="button" data-toggle="popover" data-trigger="focus" title="Deadpool 2016" data-content="The most epic superhero movie i have ever seeb in my entire life. Highly recommend for you to see.">
+                <img src="images/philoslogic.jpg" style="width:150px; height:150px;">
+                <div class="filebox">
+                  <h5>2207103 PhilosLogic</h5>
+                  <h5>Rate : <span class="glyphicon glyphicon-star gold"></span><span class="glyphicon glyphicon-star gold"></span><span class="glyphicon glyphicon-star gold"></span><span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star"></span></h5>
+                </div>
+              </a>
+              <p class = "file-noti">5</p>
+
+            </div>
+            <div class = "file">
+              <a class="fileid" tabindex="0" role="button" data-toggle="popover" data-trigger="focus" title="Leo 2016" data-content="Best Actor 2016. He recieved his beloved oscar in March 2016. He also gave a very long and boring speech to the world.">
+                <img src="images/datastruct.jpg" style="width:150px; height:150px;">
+                <div class="filebox">
+                  <h5>2110211 DataStruct</h5>
+                  <h5>Rate : <span class="glyphicon glyphicon-star gold"></span><span class="glyphicon glyphicon-star gold"></span><span class="glyphicon glyphicon-star gold"></span><span class="glyphicon glyphicon-star gold"></span><span class="glyphicon glyphicon-star"></span></h5>
+                </div>
+              </a>
+              <p class = "file-noti">5</p>
+            </div>
+          </div>
+        </div>
+        <!--PAGE INFO-->
+        <div id="page2" class="page">
+          <h3>My Info</h3>
+        </div>
+        <div class="modal fade" id="Addmodal" role="dialog">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Add a new file</h4>
+              </div>
+
+              <div class="modal-body">
+                <!-- Add file-->
+                <!--<form role="form" action="" method="post" enctype="">-->
+
+                <input type="file" name="uploadPic" class="uploadPic"><br>
+                <div class="form-group">
+                  <label>File:</label>
+                  <input class="form-control input" id="filename" placeholder="Name your file">
+                </div>
+                <div class="form-group">
+                  <label for="pwd">Desctiption:</label>
+                  <textarea id="filedes" class="form-control" placeholder="Add description here"rows="3" required></textarea>
+                </div>
+                <div id="addbtn">
+                  <button type="submit" class="btn btn-default" id="doUpload">Submit</button>
+                  <div class="progressBardiv">
+                    <div class ="progress"></div>
+                  </div>
+                </div>
+                <h5 class="status"></h5>
+                <!--</form>-->
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!--footer class="container-fluid">
+    <p>Footer Text</p>
+  </footer-->
+  <script src="node_modules/basicmodal/dist/basicModal.min.js"></script>
+  <script src="javascripts/Userjs.js"></script>
+
+</body>
+</html>

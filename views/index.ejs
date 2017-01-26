@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>HomePage</title>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href ="stylesheets/noteStyle.css" rel="stylesheet">
+  <link href ="stylesheets/animate.min.css" rel="stylesheet">
+</head>
+<body id="myPage" data-spy="scroll" data-target=".navbar" data-offset="60">
+  <script>
+  // This is called with the results from from FB.getLoginStatus().
+  function fb_login() {
+    FB.login(function(response) {
+
+        if (response.authResponse) {
+            console.log('Welcome!  Fetching your information.... ');
+            //console.log(response); // dump complete info
+            access_token = response.authResponse.accessToken; //get access token
+            user_id = response.authResponse.userID; //get FB UID
+
+            FB.api('/me', function(response) {
+                user_email = response.email; //get user email
+          // you can store this data into your database
+            });
+
+        } else {
+            //user hit cancel button
+            console.log('User cancelled login or did not fully authorize.');
+
+        }
+    }, {
+        scope: 'public_profile,email'
+    });
+  }
+  function statusChangeCallback(response) {
+    console.log('statusChangeCallback');
+    console.log(response);
+    // The response object is returned with a status field that lets the
+    // app know the current login status of the person.
+    // Full docs on the response object can be found in the documentation
+    // for FB.getLoginStatus().
+    if (response.status === 'connected') {
+      // Logged into your app and Facebook.
+      testAPI();
+    } else if (response.status === 'not_authorized') {
+      // The person is logged into Facebook, but not your app.
+      document.getElementById('status').innerHTML = 'Please log ' +
+      'into this app.';
+    } else {
+      // The person is not logged into Facebook, so we're not sure if
+      // they are logged into this app or not.
+      document.getElementById('status').innerHTML = 'Please log ' +
+      'into Facebook.';
+    }
+  }
+
+  // This function is called when someone finishes with the Login
+  // Button.  See the onlogin handler attached to it in the sample
+  // code below.
+  function checkLoginState() {
+    FB.getLoginStatus(function(response) {
+      statusChangeCallback(response);
+    });
+  }
+
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '945612282212881',
+      cookie     : true,  // enable cookies to allow the server to access
+      // the session
+      xfbml      : true,  // parse social plugins on this page
+      version    : 'v2.5' // use graph api version 2.5
+    });
+
+    // Now that we've initialized the JavaScript SDK, we call
+    // FB.getLoginStatus().  This function gets the state of the
+    // person visiting this page and can return one of three states to
+    // the callback you provide.  They can be:
+    //
+    // 1. Logged into your app ('connected')
+    // 2. Logged into Facebook, but not your app ('not_authorized')
+    // 3. Not logged into Facebook and can't tell if they are logged into
+    //    your app or not.
+    //
+    // These three cases are handled in the callback function.
+
+    FB.getLoginStatus(function(response) {
+      statusChangeCallback(response);
+    });
+
+  };
+
+  // Load the SDK asynchronously
+  (function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/en_US/sdk.js";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));
+
+  // Here we run a very simple test of the Graph API after login is
+  // successful.  See statusChangeCallback() for when this call is made.
+  function testAPI() {
+    console.log('Welcome!  Fetching your information.... ');
+    FB.api('/me', function(response) {
+      console.log('Successful login for: ' + response.name);
+      document.getElementById('status').innerHTML =
+      'Thanks for logging in, ' + response.name + '!';
+    });
+  }
+  </script>
+  <div class="container-fluid" id="mom">
+    <!--NAVBAR-->
+    <nav class="navbar navbar-default navbar-fixed-top">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="#">NoteSource</a>
+      </div>
+      <div class="collapse navbar-collapse" id="myNavbar">
+        <ul class="nav navbar-nav">
+          <li><a href="#section1">SearchMenu</a></li>
+          <li><a href="#section2">What is NoteSource</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="#login" data-toggle="modal" data-target="#rModal"><span class="glyphicon glyphicon-log-in"></span> SIGN UP</a></li>
+          <li><a href="#login" data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-log-in"></span> LOG IN</a></li>
+        </ul>
+      </div>
+
+    </nav>
+    <div class="container-fluid" id="section1">
+    </div>
+    <!--jumbotron-->
+    <div class="jumbotron">
+      <!--
+      <h1>NoteSource !!</h1>
+      <h5>Try it for yourself</h5>
+      -->
+      <h1 class="wow zoomIn animated" style="animation-name:zoomIn;font-family:AR DESTINE">NoteSource</h1>
+      <div class="wow fadeInDown animated" style="animation-name: fadeInDown;animation-delay:200ms;">
+        <!-- image design by Freepik-->
+        <div style="display:inline;padding-right:20px;"><img src="images/sheet.png" style="width:30px;"/>ชีท </div>
+        <div style="display:inline;padding-right:20px;"><img src="images/exam.png" style="width:25px;"/>ข้อสอบ </div>
+        <div style="display:inline;padding-right:20px;"><img src="images/note.png" style="width:30px;">โน๊ต </div>
+        <div style="display:inline"><img src="images/video.png" style="width:30px;"/>วิดีโอ</div>
+      </div>
+
+      <!--Log in button-->
+      <!--<a href="#login" data-toggle="modal" data-target="#myModal">
+        <div class="button-fill green">
+          <div class="button-text">Log in</div>
+          <div class="button-inside">
+            <div class="inside-text">Log in</div>
+          </div>
+        </div>
+      </a>-->
+      <!--register button-->
+      <!--<a href="#login" data-toggle="modal" data-target="#rModal">
+        <div class="button-fill orange">
+          <div class="button-text">Register</div>
+          <div class="button-inside">
+            <div class="inside-text">Register</div>
+          </div>
+        </div>
+      </a>-->
+      <!--search bar-->
+      <div id="search" class="wow fadeInDown animated" style="animation-name: fadeInDown;animation-delay:400ms;">
+        <form id="search-form" class="search-box" method="get" action="search">
+
+          <input type="text" class="form-control" id="usr" value="" placeholder="ค้นหา : University , Faculty, ..">
+          <a class="btn orange">ค้นหา</a>
+        </form>
+        <div id="searchContent" class="wui-autocomplete">
+        </div>
+      </div>
+    </div>
+    <!--Log in MODAL-->
+    <div class="modal fade" id="myModal" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Log In</h4>
+          </div>
+
+          <div class="modal-body">
+            <form role="form" method="post" action="login">
+              <!--fb:login-button id="fb" scope="public_profile,email" onlogin="checkLoginState();" data-size="xlarge">Log in with Facebook</fb:login-button-->
+
+              <button id="fb-btn" class = "btn btn-primary" type="button" onclick="fb_login()">
+                <img src="images/facebook.jpg" style="width:30px; height:30px;"> Log in with Facebook
+              </button>
+              <br>
+              <br>
+              <button id="gg-btn" class = "btn btn-primary" type="button">
+                <img src="images/google.jpg" style="width:30px; height:30px;"> Log in with Google
+              </button>
+              <br>
+              <br>
+              <div class="form-group">
+                <label for="email">Username(E-mail):</label>
+                <input type="email" name ="email" class="form-control input" id="email" placeholder="Enter email">
+              </div>
+              <div class="form-group">
+                <label for="pwd">Password:</label>
+                <input type="password" name ="password" class="form-control input" id="pwd" placeholder="Enter password">
+              </div>
+              <div class="checkbox">
+                <label><input type="checkbox"> Remember me</label>
+              </div>
+              <div class= "subbtn">
+              <button type="submit" class="btn btn-default" id="lgsub">Submit</button>
+              </div>
+
+              <!--a href="#"><img src="images/google.png"></a>
+              <a href="#"><img src="images/facebook.png"></a-->
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--Register modal-->
+    <div class="modal fade" id="rModal" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Register</h4>
+          </div>
+          <div class="modal-body">
+            <form role="form" action="register" method="post">
+              <div class="form-group">
+                <label for="email">Username:</label>
+                <input type="email" name="email" class="form-control input" id="email" placeholder="Enter email">
+              </div>
+              <div class="form-group">
+                <label for="pwd">Password:</label>
+                <input type="password" name="password" class="form-control input" id="pwd" placeholder="Enter password">
+              </div>
+              <div class="form-group">
+                <label for="fname">First Name:</label>
+                <input type="" name="fname" class="form-control input" id="fname" placeholder="Enter your name">
+              </div>
+              <div class="form-group">
+                <label for="lname">Last Name:</label>
+                <input type="" name="lname" class="form-control input" id="lname" placeholder="Enter your surname">
+              </div>
+              <div class="form-group">
+                <label for="University">University:</label>
+                <div class="dropdown">
+                  <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" id="bt1">Choose your University
+                    <span class="caret"></span>
+                  </button>
+                  <ul class="dropdown-menu" id="dd1">
+                    <li><a href="#">CU</a></li>
+                    <li><a href="#">TU</a></li>
+                    <li><a href="#">KU</a></li>
+                  </ul>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="Faculty">Faculty:</label>
+                <div class="dropdown">
+                  <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" id="bt2">Choose your Faculty
+                    <span class="caret"></span>
+                  </button>
+                  <ul class="dropdown-menu" id="dd2">
+                    <li><a href="#">Engineering</a></li>
+                    <li><a href="#">Science</a></li>
+                    <li><a href="#">Medical</a></li>
+                    <li><a href="#">Law</a></li>
+                  </ul>
+                </div>
+              </div>
+              <div class="checkbox">
+                <label><input type="checkbox"> Remember me</label>
+              </div>
+              <div class="subbtn">
+              <button type="submit" value="Submit" class="btn btn-default">Submit</button>
+            </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--Second section-->
+    <div class="container marketing" id="section2" >
+      <div class="row featurette">
+        <div class="col-md-7">
+          <h2 class="featurette-heading">Best notes and educational files platform</h2>
+          <br>
+          <p class="lead">We allow you to access every notes and files posted by other users. Never have to worry about missing important notes in your courses!</p>
+        </div>
+        <div class="col-md-5">
+          <img class="featurette-image img-responsive center-block" src="images/computer.png" alt="Generic placeholder image" style="width:600px; height:400px;">
+        </div>
+      </div>
+      <hr class="featurette-divider">
+
+      <div class="row featurette" id="section3">
+        <div class="col-md-5">
+          <img class="featurette-image img-responsive center-block" src="images/deadpool.jpg" alt="Generic placeholder image" style="width:600px; height:400px;">
+        </div>
+        <div class = "col-md-7">
+          <h2 class="featurette-heading">Feel free to Rate and Commend!</h2>
+          <br>
+          <p class="lead">You can help our community better by rating and commenting on other's notes!</p>
+          <p class = "lead">Oh, and dont forget to appreciate those who commend on your notes as well!</p>
+        </div>
+      </div>
+      <hr class="featurette-divider">
+    </div>
+    <!--footer-->
+    <footer class="container-fluid text-center">
+      <a href="#myPage" title="To Top">
+        <span class="glyphicon glyphicon-chevron-up"></span>
+      </a>
+      <p>Go to the top</p>
+    </footer>
+  </div>
+
+
+  <script src="bower_components/jquery/dist/jquery.min.js"></script>
+  <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+  <script src="static/javascripts/Homejs.js"></script>
+
+  <!-- What is 3 script below-->
+  <script src="js/vendor/holder.min.js"></script>
+  <script src="js/ie-emulation-modes-warning.js"></script>
+  <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+  <script src="js/ie10-viewport-bug-workaround.js"></script>
+
+</body>
+</html>

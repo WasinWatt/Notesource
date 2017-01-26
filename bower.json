@@ -1,0 +1,22 @@
+{
+  "name": "NoteSource(nodejs)",
+  "description": "",
+  "main": "",
+  "authors": [
+    "5730539021-WS <liang_wasin@hotmail.co.th>"
+  ],
+  "license": "MIT",
+  "moduleType": [],
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "^2.2.2",
+    "bootstrap": "^3.3.6"
+  }
+}
