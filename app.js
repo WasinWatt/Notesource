@@ -31,10 +31,11 @@ app.use('/node_modules',  express.static(__dirname + '/node_modules'));
 //Sessions
 app.use(session({
   cookieName: 'session_notesource',
-  secret: 'XXXXXXXXXXXXXX',
-  duration: 30 * 60 * 1000
-}));,//millisec
+  secret: 'hello_its_me',
+  duration: 30 * 60 * 1000,
   activeDuration: 5 * 60 * 1000
+}));//millisec
+
 app.use(function(req, res, next) {
   if (req.session_notesource.seenyou) {
     res.setHeader('X-Seen-You', 'true');
@@ -53,12 +54,12 @@ app.use('/', routes);
 app.use('/users', users);
 
 //AWS
-var knoxClient = knox.createClient({
-  key:config.S3AccessKey,
-  secret:config.S3Secret,
-  bucket:config.S3Bucket
-});
-exports.knoxClient = knoxClient;
+// var knoxClient = knox.createClient({
+//   key:config.S3AccessKey,
+//   secret:config.S3Secret,
+//   bucket:config.S3Bucket
+// });
+// exports.knoxClient = knoxClient;
 
 //Download part (test)
 app.use('/download/test',function(req,res,next){

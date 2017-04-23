@@ -1,7 +1,7 @@
 {
   "host":"http://127.0.0.1:3000",
   "dbURI":"mongodb://notesource:notesource@ds023452.mlab.com:23452/notesource",
-  "S3AccessKey":"AKIAJPO3235XFEKRQPLQ",
-  "S3Secret":"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",
-  "S3Bucket":"notesource"
+  "S3AccessKey":"",
+  "S3Secret":"",
+  "S3Bucket":""
 }
